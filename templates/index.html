@@ -1,0 +1,369 @@
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Breast Cancer Prediction - Medical AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+      :root {
+        --medical-blue: #1e3a8a;
+        --medical-light-blue: #3b82f6;
+        --medical-green: #10b981;
+        --medical-red: #dc2626;
+        --medical-gray: #6b7280;
+        --medical-light-gray: #f8fafc;
+        --medical-white: #ffffff;
+        --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      body {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        color: var(--medical-gray);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+      }
+
+      .medical-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      .medical-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: var(--medical-blue);
+        font-weight: 600;
+        font-size: 2.5rem;
+        position: relative;
+      }
+
+      .medical-header::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 3px;
+        background: var(--medical-light-blue);
+        margin: 1rem auto;
+        border-radius: 2px;
+      }
+
+      .medical-form {
+        background: var(--medical-white);
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: var(--shadow-medium);
+        margin-bottom: 2rem;
+        border: 1px solid rgba(59, 130, 246, 0.1);
+      }
+
+      .medical-form .form-label {
+        color: var(--medical-blue);
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .medical-form .form-control {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #fafbfc;
+      }
+
+      .medical-form .form-control:focus {
+        border-color: var(--medical-light-blue);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        background-color: var(--medical-white);
+      }
+
+      .medical-btn {
+        background: linear-gradient(135deg, var(--medical-blue), var(--medical-light-blue));
+        border: none;
+        padding: 0.875rem 2rem;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-soft);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 1.5rem auto 0;
+        color: white;
+      }
+
+      .medical-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+        background: linear-gradient(135deg, #1e40af, #2563eb);
+        color: white;
+      }
+
+      .results-section {
+        margin-top: 2rem;
+      }
+
+      .result-message {
+        background: var(--medical-white);
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: var(--shadow-soft);
+        margin-bottom: 1rem;
+        border-left: 4px solid var(--medical-light-blue);
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--medical-blue);
+      }
+
+      .medical-card {
+        background: var(--medical-white);
+        border-radius: 16px;
+        box-shadow: var(--shadow-medium);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: none;
+        margin: 1.5rem 0;
+      }
+
+      .medical-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-positive {
+        border-left: 6px solid var(--medical-green);
+      }
+
+      .card-negative {
+        border-left: 6px solid var(--medical-red);
+      }
+
+      .medical-card .card-body {
+        padding: 2rem;
+      }
+
+      .medical-card .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .card-positive .card-title {
+        color: var(--medical-green);
+      }
+
+      .card-negative .card-title {
+        color: var(--medical-red);
+      }
+
+      .medical-card .card-text {
+        color: var(--medical-gray);
+        line-height: 1.6;
+        margin-bottom: 0;
+      }
+
+      /* Fixed image styling */
+      .hero-section {
+        width: 100%;
+        margin: 1.5rem 0;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow-medium);
+        text-align: center;
+      }
+
+      .hero-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        display: block;
+        border-radius: 12px;
+      }
+
+      .result-image-container {
+        width: 100%;
+        height: 200px;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 0;
+        position: relative;
+      }
+
+      .result-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .image-placeholder {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+        border: 2px dashed #cbd5e1;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1.5rem 0;
+        transition: all 0.3s ease;
+      }
+
+      .image-placeholder:hover {
+        border-color: var(--medical-light-blue);
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      }
+
+      .image-placeholder i {
+        font-size: 2rem;
+        color: var(--medical-gray);
+        margin-bottom: 0.5rem;
+      }
+
+      .image-placeholder span {
+        color: var(--medical-gray);
+        font-weight: 500;
+        text-align: center;
+      }
+
+      .disclaimer {
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 2rem;
+        font-size: 0.875rem;
+        color: #92400e;
+      }
+
+      .disclaimer i {
+        color: #f59e0b;
+        margin-right: 0.5rem;
+      }
+
+      @media (max-width: 768px) {
+        .medical-header {
+          font-size: 2rem;
+        }
+        
+        .medical-form {
+          padding: 1.5rem;
+        }
+        
+        .medical-card .card-body {
+          padding: 1.5rem;
+        }
+        
+        .hero-image {
+          height: 200px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="medical-container">
+      <h1 class="medical-header">Breast Cancer Prediction Model</h1>
+      
+      <!-- Hero/Banner Section -->
+      <div class="hero-section">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrMPIKkloNSDZnpQsga7Mwceh_PCXXxlSF-g&s" alt="Breast Cancer Detection" class="hero-image" />
+      </div>
+      
+      <form action="/predict" method="POST" class="medical-form">
+        <div class="mb-3">
+          <label for="feature" class="form-label">
+            <i class="fas fa-stethoscope"></i>
+            Input Breast Cancer Features
+          </label>
+          <input type="text" class="form-control" id="feature" name="feature" 
+                 placeholder="Enter comma-separated feature values (e.g., 17.99,10.38,122.8...)">
+          <div class="form-text text-muted mt-2">
+            <i class="fas fa-info-circle"></i>
+            Please enter all 30 feature values separated by commas
+          </div>
+        </div>
+        <button type="submit" class="medical-btn">
+          <i class="fas fa-brain"></i>
+          Analyze & Predict
+        </button>
+      </form>
+
+      <div class="results-section">
+        {% for i in message %}
+        <div class="result-message">
+          <i class="fas fa-chart-line"></i>
+          {{ i }}
+        </div>
+        
+        {% if i=='Not Cancrouse' %}
+        <div class="medical-card card-positive">
+          <!-- Fixed positive result image -->
+          <div class="result-image-container">
+            <img 
+              src="https://st2.depositphotos.com/3489481/5301/i/450/depositphotos_53010223-stock-photo-free-happy-girl-on-beach.jpg" 
+              alt="Positive Health Result"
+              class="result-image"
+            />
+          </div>
+          
+          <div class="card-body">
+            <h5 class="card-title">
+              <i class="fas fa-check-circle"></i>
+              Negative for Malignancy
+            </h5>
+            <p class="card-text">
+              The AI analysis suggests no indication of malignant tissue. This is encouraging news. 
+              However, regular medical check-ups and professional consultation remain essential for comprehensive health monitoring.
+            </p>
+          </div>
+        </div>
+        {% else %}
+        <div class="medical-card card-negative">
+          <!-- Fixed attention result image -->
+          <div class="result-image-container">
+            <img 
+              src="https://t4.ftcdn.net/jpg/03/58/90/89/360_F_358908973_k9y31m50zOnbIMOZYEEyNLBPbRanQig1.jpg" 
+              alt="Medical Attention Required"
+              class="result-image"
+            />
+          </div>
+          
+          <div class="card-body">
+            <h5 class="card-title">
+              <i class="fas fa-exclamation-triangle"></i>
+              Requires Medical Attention
+            </h5>
+            <p class="card-text">
+              The AI analysis indicates potential areas of concern that require immediate medical evaluation. 
+              Please schedule an appointment with a qualified healthcare professional for comprehensive diagnosis and appropriate medical care.
+            </p>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="disclaimer">
+        <i class="fas fa-shield-alt"></i>
+        <strong>Medical Disclaimer:</strong> This AI prediction tool is for informational purposes only and should not replace professional medical diagnosis. 
+        Always consult with qualified healthcare providers for medical decisions.
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  </body>
+</html>
+
